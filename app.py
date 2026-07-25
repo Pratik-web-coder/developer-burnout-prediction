@@ -77,8 +77,39 @@ st.markdown("""
         color: var(--ink);
     }
 
+    /* Stat tiles */
+    .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        gap: 0.7rem;
+        margin: 0.9rem 0 1.1rem 0;
+    }
+    .stat-tile {
+        background: #F8FAFC;
+        border: 1px solid #EAECEF;
+        border-radius: 12px;
+        padding: 0.75rem 0.6rem;
+        text-align: center;
+    }
+    .stat-tile-accent {
+        background: var(--accent-soft);
+        border-color: #FFD3D3;
+    }
+    .stat-label {
+        font-size: 0.72rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        margin-bottom: 0.25rem;
+    }
+    .stat-value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--ink);
+    }
+
     /* Metric chips */
-    .chip-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .chip-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.3rem; }
     .chip {
         background: #F1F5F9;
         border-radius: 999px;
@@ -167,23 +198,41 @@ predict_clicked = st.sidebar.button("🚀 Predict Burnout Risk")
 col1, col2 = st.columns([1, 1], gap="large")
 
 with col1:
-    st.markdown('<div class="card"><h3>📊 Input Summary</h3>', unsafe_allow_html=True)
-    m1, m2, m3, m4 = st.columns(4)
-    m1.metric("Age", age)
-    m2.metric("Work Hrs/Day", daily_work_hours)
-    m3.metric("Sleep Hrs", sleep_hours)
-    m4.metric("Stress", f"{stress_level}/100")
-
-    st.markdown('<div class="chip-row">', unsafe_allow_html=True)
     st.markdown(f"""
-        <span class="chip">☕ {caffeine_intake} cups/day</span>
-        <span class="chip">🖥️ {screen_time}h screen time</span>
-        <span class="chip">🏃 {exercise_hours}h exercise</span>
-        <span class="chip">🐛 {bugs_per_day} bugs/day</span>
-        <span class="chip">✅ {commits_per_day} commits/day</span>
-        <span class="chip">📅 {meetings_per_day} meetings/day</span>
+    <div class="card">
+        <h3>📊 Input Summary</h3>
+        <div class="stat-grid">
+            <div class="stat-tile">
+                <div class="stat-label">Age</div>
+                <div class="stat-value">{age}</div>
+            </div>
+            <div class="stat-tile">
+                <div class="stat-label">Experience</div>
+                <div class="stat-value">{experience_years} yrs</div>
+            </div>
+            <div class="stat-tile">
+                <div class="stat-label">Work Hrs/Day</div>
+                <div class="stat-value">{daily_work_hours}</div>
+            </div>
+            <div class="stat-tile">
+                <div class="stat-label">Sleep Hrs</div>
+                <div class="stat-value">{sleep_hours}</div>
+            </div>
+            <div class="stat-tile stat-tile-accent">
+                <div class="stat-label">Stress Level</div>
+                <div class="stat-value">{stress_level}/100</div>
+            </div>
+        </div>
+        <div class="chip-row">
+            <span class="chip">☕ {caffeine_intake} cups/day</span>
+            <span class="chip">🖥️ {screen_time}h screen time</span>
+            <span class="chip">🏃 {exercise_hours}h exercise</span>
+            <span class="chip">🐛 {bugs_per_day} bugs/day</span>
+            <span class="chip">✅ {commits_per_day} commits/day</span>
+            <span class="chip">📅 {meetings_per_day} meetings/day</span>
+        </div>
+    </div>
     """, unsafe_allow_html=True)
-    st.markdown('</div></div>', unsafe_allow_html=True)
 
 with col2:
     st.markdown('<div class="card"><h3>🌡️ Stress Gauge</h3>', unsafe_allow_html=True)
