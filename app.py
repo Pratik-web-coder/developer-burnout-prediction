@@ -247,9 +247,15 @@ if predict_clicked:
     with res_col1:
         st.markdown('<div class="card"><h3>📈 Prediction Confidence</h3>', unsafe_allow_html=True)
         for cls, prob in sorted(zip(encoder.classes_, probs), key=lambda x: -x[1]):
-            st.write(f"**{cls}**")
+            st.markdown(
+                f'<p style="color:#1F2430; font-weight:600; margin:0.6rem 0 0.2rem 0;">{cls}</p>',
+                unsafe_allow_html=True,
+            )
             st.progress(float(prob))
-            st.caption(f"{prob:.1%}")
+            st.markdown(
+                f'<p style="color:#6B7280; font-size:0.85rem; margin:0.1rem 0 0 0;">{prob:.1%}</p>',
+                unsafe_allow_html=True,
+            )
         st.markdown('</div>', unsafe_allow_html=True)
 
     with res_col2:
@@ -265,8 +271,10 @@ if predict_clicked:
             tips.append("Screen time is high — scheduled breaks can reduce fatigue.")
         if not tips:
             tips.append("Your habits look balanced. Keep maintaining this routine.")
-        for t in tips:
-            st.write(f"• {t}")
+        tips_html = "".join(
+            f'<p style="color:#1F2430; margin:0.5rem 0; line-height:1.4;">• {t}</p>' for t in tips
+        )
+        st.markdown(tips_html, unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 else:
     st.info("👈 Adjust your details in the sidebar, then click **Predict Burnout Risk** to see results.")
